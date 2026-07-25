@@ -87,7 +87,7 @@ export const useChatStore = defineStore('chat', () => {
             const generatingStep = currentProcess.find((p) => p.type === 'generating')
             if (generatingStep) generatingStep.status = 'done'
             if (typeof step.data === 'string') {
-              assistantMsg.value.content = step.data
+              assistantMsg.value.content += step.data
             }
             assistantMsg.value.showProcess = false
             // Empty-KB path: backend sends answer with done=true and no following
