@@ -44,10 +44,10 @@
 | 向量数据库 | LangChain FAISS（`IndexFlatL2`）| Qdrant / Milvus / Chroma | 百级文档量暴力检索召回率 100%，无 IVF/HNSW 调参成本；预留扩展点 |
 | 稀疏检索 | `rank_bm25` + `jieba.lcut` | ES / Lucene | 单机部署简单，无外部依赖；jieba 处理 CJK 分词 |
 | 融合算法 | **RRF（k=60）** | 加权融合（线性组合）| BM25 分数无界、余弦相似度 [0,1]，量级无法直接加权；RRF 只用 rank 信息，对分数尺度免疫；k=60 为 Cormack et al. 2009 SIGIR 工业默认值 |
-| 精排 | DashScope `gte-rerank` (cross-encoder) | bge-reranker 本地 / ColBERT | bi-encoder 召回 40 个 → cross-encoder 精排到 3 个，平衡 latency 与 accuracy；DashScope 托管减少部署负担 |
+| 精排 | DashScope `qwen3-rerank` (cross-encoder) | bge-reranker 本地 / ColBERT | bi-encoder 召回 40 个 → cross-encoder 精排到 3 个，平衡 latency 与 accuracy；DashScope 托管减少部署负担 |
 | 相关性阈值 | `0.2` | 不设 / 更高 | 宁可空答案也不喂低相关 chunk 给 LLM，降低幻觉的最后一道闸门 |
 | 切片策略 | `MarkdownHeaderTextSplitter` → `RecursiveCharacterTextSplitter`（500/50）| 固定窗口 / 语义切片 | Markdown 先按 H1/H2/H3 切，保留结构语义；500 字符兼顾召回粒度与上下文完整性 |
-| LLM | `qwen-turbo` | qwen-plus / qwen-max | 应用层 RAG 已经把上下文压缩到 3 chunk，turbo 性价比够用 |
+| LLM | `qwen3.7-plus`（yaml 可切换） | qwen-turbo / qwen-max | 上下文已压缩到 Top-3 chunk，中档模型即可；成本敏感场景可降至 qwen-turbo（2026-05 评估基线即用 turbo） |
 | 流协议 | NDJSON over HTTP（FastAPI StreamingResponse）| 标准 SSE / WebSocket | 复用 HTTP 基础设施；逐行 JSON 解析比标准 SSE 帧解析更直观 |
 
 ---
@@ -57,8 +57,8 @@
 ```python
 # 模型
 EMBEDDING_MODEL = "text-embedding-v3"
-LLM_MODEL = "qwen-turbo"
-RERANK_MODEL = "gte-rerank"
+LLM_MODEL = "qwen3.7-plus"
+RERANK_MODEL = "qwen3-rerank"
 
 # 切片
 CHUNK_SIZE = 500
@@ -176,7 +176,7 @@ uv run python eval/run_eval.py --questions eval/sample_questions.json
 
 ### 当前评估结果（2026-05-28 baseline）
 
-在 10 道针对当前语料（React 组件库/Hook 教程，751 chunks / 18 docs）的人工设计问题上：
+在 10 道针对当前语料（React 组件库/Hook 教程，751 chunks / 18 docs）的人工设计问题上（基线模型配置：qwen-turbo + gte-rerank，完整参数见结果 JSON 的 config 段）：
 
 | 指标 | 分数 | 解读 |
 |---|---|---|

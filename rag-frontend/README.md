@@ -8,6 +8,7 @@
 - 📱 **响应式布局**：适配各种屏幕尺寸
 - 🔄 **实时交互**：基于流式响应的打字机效果问答体验
 - 📂 **文档管理**：直观的文档上传、列表管理与搜索
+- 📄 **在线预览**：PDF / DOCX 浏览器内直接预览（@vue-office）
 
 ## 🛠️ 技术栈
 
@@ -15,9 +16,10 @@
 - **Build Tool**: Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
+- **UI Components**: Element Plus
 - **State Management**: Pinia
 - **Routing**: Vue Router
-- **HTTP Client**: Axios
+- **HTTP Client**: Axios（文档管理）+ 原生 fetch（问答 NDJSON 流式读取）
 
 ## 🚀 快速开始
 
@@ -33,7 +35,7 @@ npm install
 npm run dev
 ```
 
-应用将启动在 `http://localhost:5173`。
+应用将启动在 `http://localhost:5173`。Vite 已将 `/api` 代理到 `http://localhost:8000`，请先启动后端服务。
 
 ### 3. 构建生产版本
 

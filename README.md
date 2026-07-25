@@ -1,66 +1,92 @@
-# 🚀 Document Retrieval RAG System
+# Document-RAG-System
 
-一个完整的企业级本地知识库问答系统（RAG），支持文档上传、解析、向量化存储以及基于大模型的智能检索问答。
+**本地知识库混合检索问答系统** · FastAPI + LangChain + FAISS + Vue 3
 
-## 🌟 系统架构
+把 PDF / Word / Markdown / TXT 变成可追问的知识库：两阶段混合检索（FAISS 稠密召回 + BM25 稀疏召回 → RRF 融合 → Cross-Encoder 精排），检索不到就明确拒答，回答质量用离线评估量化跟踪。
 
-本系统由前后端分离架构组成：
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?logo=langchain&logoColor=white)
+![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D?logo=vuedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-- **Frontend**: `rag-frontend` (Vue 3 + Tailwind CSS) - 提供现代化的用户交互界面
-- **Backend**: `rag-backend` (FastAPI + LangChain) - 处理文档解析、向量检索与 LLM 交互
+---
 
-## ✨ 主要功能
+## 这个 RAG 和"调一次 API 的 demo"差在哪
 
-- **📚 知识库管理**
-  - 支持 PDF, Word, Markdown, TXT 格式文档上传
-  - 文档切片与向量化索引（使用 Faiss）
-  - 文档列表查询与管理
+**1. 检索是两阶段混合，不是单路向量。**
+中文场景里的专有名词、缩写、短查询，纯向量召回容易漏。这里 FAISS 稠密与 BM25（jieba 分词）稀疏双路并行召回，用 RRF（k=60）做排名融合——只用 rank 不用分数，天然免疫两路分数尺度不可比的问题——再经 cross-encoder 精排，低于 0.2 相关性阈值的片段直接丢弃：**宁可拒答，不喂低相关上下文给模型编故事。**
 
-- **💬 智能问答**
-  - 基于通义千问（Qwen）大模型
-  - 检索增强生成（RAG）：先检索相关文档片段，再生成回答
-  - 支持流式响应（Streaming Response）
-  - 展示思考过程与引用来源
+**2. 效果有数字，不靠"感觉变好了"。**
+自建 RAGAS 风格 LLM-as-Judge 离线评估（[rag-backend/eval/](rag-backend/eval/)），三个指标可复现、可回归：
 
-## ⚡ 快速启动指南
+| 指标 | 分数 | 含义 |
+|---|---|---|
+| Context Precision | **0.858** | 检索出的 Top-3 片段中相关片段占比（按排名加权） |
+| Faithfulness | **0.867** | 答案中的事实陈述能从检索内容推出的比例（防幻觉） |
+| Answer Relevancy | **0.847** | 答案与原问题的语义对齐度 |
 
-### 前置要求
+> 2026-05 基线：18 文档 / 751 chunks / 10 题；评测时模型为 qwen-turbo + gte-rerank（完整配置随结果落盘于 [eval/results/](rag-backend/eval/results/)）。评测集扩充与检索消融实验见 [Roadmap](#roadmap)。
 
-- Node.js 16+
-- Python 3.10+
-- 阿里云 DashScope API Key
+**3. 过程全透明。**
+NDJSON 全链路流式：检索 → 精排 → 生成逐步推送，前端把每一步画出来；每条回答附来源片段、页码与命中路径（vector / bm25 / 双路命中）。
 
-### 1. 启动后端服务
+## 架构
 
-进入 `rag-backend` 目录：
+```
+【索引链路】
+  上传 → 解析 (PDF/DOCX/MD/TXT) → Markdown 结构化切片 (500/50) → text-embedding-v3 → FAISS 落盘
+
+【问答链路】
+           ┌─► FAISS 稠密召回 (Top 20) ─┐
+  提问 ────┤                            ├─► RRF 融合 (k=60) ─► Cross-Encoder 精排
+           └─► BM25 稀疏召回 (Top 20) ─┘
+       ─► 阈值过滤 (≥0.2) ─► Top-3 上下文 ─► qwen 流式生成 ─► NDJSON ─► 前端逐 token 渲染
+```
+
+<!-- TODO(截图): 系统跑起来后截两张图放到 docs/screenshots/ 目录，然后取消下面的注释
+## 界面预览
+
+| 智能问答（检索过程与来源可视化） | 文档管理（在线预览） |
+|---|---|
+| ![Chat](docs/screenshots/chat.png) | ![Docs](docs/screenshots/docs.png) |
+-->
+
+## 快速开始
+
+前置：Python 3.12+ · Node.js 18+ · [阿里云 DashScope API Key](https://dashscope.console.aliyun.com/)
 
 ```bash
-cd rag-backend
-# 配置 .env 文件，填入 DASHSCOPE_API_KEY
+# 1. 后端 (rag-backend/)
+cp .env.example .env         # 填入 DASHSCOPE_API_KEY
 uv sync
-uv run start.py
-```
+uv run start.py              # http://localhost:8000 ，Swagger 见 /docs
 
-### 2. 启动前端应用
-
-进入 `rag-frontend` 目录：
-
-```bash
-cd rag-frontend
+# 2. 前端 (rag-frontend/) —— Vite 已代理 /api → 8000，请先启动后端
 npm install
-npm run dev
+npm run dev                  # http://localhost:5173
 ```
 
-### 3. 访问系统
+## 项目结构
 
-打开浏览器访问：[http://localhost:5173](http://localhost:5173)
+```
+├── rag-backend/     # FastAPI + LangChain：解析、切片、索引、混合检索、流式问答、离线评估
+└── rag-frontend/    # Vue 3 + TS + Pinia：问答界面（过程可视化）、文档管理与在线预览
+```
 
-## 📸 界面预览
+## 深入文档
 
-| 文档管理 | 智能问答 |
-|----------|----------|
-| ![Doc Manage](./images/1.jpg) | ![Chat Interface](./images/2.jpg) |
+- **[后端架构与技术决策表](rag-backend/README.md)** —— 每个选型的 "Why this, not that"：RRF vs 加权融合、FlatL2 vs HNSW、阈值取舍、切片策略等
+- **[评估方法与指标定义](rag-backend/eval/README.md)** —— LLM-as-Judge 三指标的计算方式与局限
 
-## 📝 License
+## Roadmap
 
-MIT License
+- [ ] 检索消融实验：混检 / 精排 2×2 对照，评测集 10 → 35+
+- [ ] 多轮对话与查询改写（指代消解）
+- [ ] Docker Compose 一键部署 + 线上 Demo
+- [ ] 文档量上万后：FAISS `IndexFlatL2` → `IndexHNSWFlat`，metadata filter 下推到检索层
+
+## License
+
+[MIT](LICENSE)
