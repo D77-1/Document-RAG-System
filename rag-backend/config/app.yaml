@@ -1,0 +1,34 @@
+server:
+  host: "0.0.0.0"
+  port: 8000
+  upload_max_size: 10485760
+  request_timeout: 60
+
+model:
+  embedding:
+    provider: "aliyun"
+    model_name: "text-embedding-v3"
+  llm:
+    provider: "aliyun"
+    model_name: "qwen3.7-plus"
+    temperature: 0.7
+  rerank:
+    provider: "aliyun"
+    model_name: "qwen3-rerank"
+
+vector_db:
+  type: "faiss"
+  path: "data/vector_db"
+  top_n: 3
+
+splitter:
+  chunk_size: 500
+  overlap: 50
+
+retrieval:
+  vector_candidates: 20 # FAISS top-N before fusion/rerank
+  bm25_candidates: 20 # BM25 top-N before fusion/rerank
+  enable_hybrid: true # Vector + BM25 with RRF fusion
+  enable_rerank: true # Cross-encoder rerank after fusion
+  rrf_k: 60 # Reciprocal Rank Fusion constant
+  relevance_threshold: 0.2 # Drop final chunks below this rerank score (0..1)

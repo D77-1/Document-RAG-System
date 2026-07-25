@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "SF Pro SC", "SF Pro Text", "Helvetica Neue", "Helvetica", "PingFang SC", "Segoe UI", "Microsoft YaHei", "Arial", sans-serif;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-zinc-950 text-zinc-100 antialiased;
+  font-family: var(--font-sans);
+}
+
+/* Custom Scrollbar for Dark Theme */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-700 rounded-full border-2 border-zinc-900;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-zinc-600;
+}
+
+/* Element Plus Dark Mode Overrides if needed */
+.el-button--primary {
+  --el-button-bg-color: #7c3aed;
+  --el-button-border-color: #7c3aed;
+  --el-button-hover-bg-color: #6d28d9;
+  --el-button-hover-border-color: #6d28d9;
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "Q001",
+    "question": "Storybook 是用来做什么的？",
+    "ground_truth_keywords": ["组件文档", "组件库", "调试", "可视化"]
+  },
+  {
+    "id": "Q002",
+    "question": "React function 组件里常用的 Hook 有哪些？",
+    "ground_truth_keywords": ["useState", "useEffect", "useRef", "useMemo", "useCallback"]
+  },
+  {
+    "id": "Q003",
+    "question": "React Hook 闭包陷阱是怎么产生的？怎么解决？",
+    "ground_truth_keywords": ["闭包", "依赖", "useEffect", "useRef", "陈旧"]
+  },
+  {
+    "id": "Q004",
+    "question": "React 组件怎么写 TypeScript 类型？常见的 props 类型怎么定义？",
+    "ground_truth_keywords": ["TypeScript", "props", "interface", "type", "ReactNode"]
+  },
+  {
+    "id": "Q005",
+    "question": "Suspense 和 ErrorBoundary 的作用分别是什么？",
+    "ground_truth_keywords": ["Suspense", "ErrorBoundary", "异步", "错误", "loading"]
+  },
+  {
+    "id": "Q006",
+    "question": "防删除的 Watermark 水印组件怎么实现？",
+    "ground_truth_keywords": ["Watermark", "MutationObserver", "水印", "防删除", "DOM"]
+  },
+  {
+    "id": "Q007",
+    "question": "Space 间距组件的核心实现思路是什么？",
+    "ground_truth_keywords": ["Space", "间距", "children", "flex", "gap"]
+  },
+  {
+    "id": "Q008",
+    "question": "浏览器里有哪几种 Observer？分别用来干什么？",
+    "ground_truth_keywords": ["MutationObserver", "IntersectionObserver", "ResizeObserver", "PerformanceObserver"]
+  },
+  {
+    "id": "Q009",
+    "question": "React.Children 有什么用？有哪些替代方案？",
+    "ground_truth_keywords": ["React.Children", "map", "forEach", "替代", "迭代"]
+  },
+  {
+    "id": "Q010",
+    "question": "react-lazyload 是怎么实现懒加载的？",
+    "ground_truth_keywords": ["IntersectionObserver", "懒加载", "lazyload", "可视区域"]
+  }
+]

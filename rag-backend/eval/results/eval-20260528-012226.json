@@ -1,0 +1,456 @@
+{
+  "summary": {
+    "num_questions": 10,
+    "context_precision": 0.8583333333333334,
+    "faithfulness": 0.8666666666666666,
+    "answer_relevancy": 0.8471863806247711,
+    "duration_seconds": 161.2902820110321
+  },
+  "config": {
+    "top_k": 3,
+    "num_relevancy_queries": 3,
+    "embedding_model": "text-embedding-v3",
+    "llm_model": "qwen-turbo",
+    "rerank_model": "gte-rerank",
+    "rrf_k": 60,
+    "relevance_threshold": 0.2
+  },
+  "per_question": [
+    {
+      "id": "Q001",
+      "question": "Storybook 是用来做什么的？",
+      "answer": "Storybook 是用来构建组件文档的工具，可以轻松创建组件文档，支持写多个 story，直观展示组件不同场景下的渲染结果，并可用于测试 [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "7a3d9e12-da0f-41c9-9d24-dd509b531a99",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6905976202511219,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "写组件文档，我们一般都是用 Storybook。  \n它把不同 props 的渲染结果叫做一个 story，一个组件有多个 story。  \nstory 可以通过 args 指定传入组件的参数，通过 loaders 请求数据，通过 rend"
+        },
+        {
+          "chunk_id": "1c9edb9a-804c-41c0-b9ef-4d5238d29090",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6827631552506406,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "我们每天都在写各种组件，一般的组件不需要文档，但当你写组件库里的组件，或者项目里的一些公共组件的时候，是需要提供文档的。  \n这时候我们一般都会用 Storybook。  \nStorybook 是非常流行的用来构建组件文档的工具。  \n现在"
+        },
+        {
+          "chunk_id": "a6010f60-45e0-49e3-955a-6896d4731e85",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6060358109892074,
+          "methods": [
+            "vector"
+          ],
+          "text_preview": "这些都是与 Story 无关的一些东西，所以放在 Meta 里。  \n此外，你还可以用 Storybook 写 MDX 文档。  \nmdx 是 markdown + jsx 的混合语法，用来写文档很不错。  \n在这个目录下的文档：  \n!["
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 0.8333333333333334,
+      "answer_relevancy": 0.7208446661631266,
+      "error": null
+    },
+    {
+      "id": "Q002",
+      "question": "React function 组件里常用的 Hook 有哪些？",
+      "answer": "React function 组件里常用的 Hook 有 useState、useEffect、useLayoutEffect 和 useReducer [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "f6f4807b-6f11-49e8-a313-f2d5b355c9dd",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6907937225910544,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "这节我们过了一遍 React 常用的 hook：  \n- **useState**：状态是变化的数据，是组件甚至前端应用的核心。useState 有传入值和函数两种参数，返回的 setState 也有传入值和传入函数两种参数。  \n- **"
+        },
+        {
+          "chunk_id": "c3e3d72d-33e2-4a88-b9f8-c34f167ef8d1",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6752470277613092,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "React 组件支持 class、function 两种形式，但现在绝大多数情况下我们都是写 function 组件了。  \n[官方文档](https://react.dev/reference/react/Component)也已经把 c"
+        },
+        {
+          "chunk_id": "65df7c3c-3653-463b-9244-0ddf135f31c8",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6749332827501769,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "当然，react 的 hook 还有一些，那些不大常用的，等用到的时候再说。  \nclass 组件被标记为 lagency 了，现在写 React 组件主要是 function 组件。  \n函数组件主要是学习 hook，所以把这节的内容掌握"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 0.8333333333333334,
+      "answer_relevancy": 0.9658606648445129,
+      "error": null
+    },
+    {
+      "id": "Q003",
+      "question": "React Hook 闭包陷阱是怎么产生的？怎么解决？",
+      "answer": "React Hook 闭包陷阱是由于 effect 函数引用了 state，但未将 state 加入依赖数组，导致使用的是旧的 state 值 [chunk_2]。解决方法包括：使用 setState 的函数形式或 useReducer 避免闭包，将 state 加入依赖数组，或使用 useRef 保存值 [chunk_3]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "15a78df3-4f4b-4df7-b8e1-8c47493a3400",
+          "doc_name": "第03章—Hook的闭包陷阱的成因和解决方案.md",
+          "page": 1,
+          "score": 0.6692738558118595,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "上节我们学习了各种 hook，用这些 hook 写组件的时候经常遇到一个问题，就是闭包陷阱。  \n这节我们了解下什么是闭包陷阱，如何解决闭包陷阱。  \n用 cra 创建个项目：  \n```\nnpx create-react-app --te"
+        },
+        {
+          "chunk_id": "56f1ec38-dc75-4073-a240-012b99ea9e8e",
+          "doc_name": "第03章—Hook的闭包陷阱的成因和解决方案.md",
+          "page": 1,
+          "score": 0.6572354665058322,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "但是，现在 useEffect 的依赖数组是 []，也就是只会执行并保留第一次的 function。  \n而第一次的 function 引用了当时的 count，形成了闭包。  \n也就是实际上的执行是这样的：  \n![](https://p"
+        },
+        {
+          "chunk_id": "72a39ae0-bc73-4b7e-8f0d-338dcc4096a5",
+          "doc_name": "第03章—Hook的闭包陷阱的成因和解决方案.md",
+          "page": 1,
+          "score": 0.6509592734896242,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "这节我们学习了闭包陷阱和它的三种解决方案。  \n闭包陷阱就是 effect 函数等引用了 state，形成了闭包，但是并没有把 state 加到依赖数组里，导致执行 effect 时用的 state 还是之前的。  \n这个问题有三种解决方案"
+        }
+      ],
+      "context_precision": 0.5833333333333333,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9683620731035868,
+      "error": null
+    },
+    {
+      "id": "Q004",
+      "question": "React 组件怎么写 TypeScript 类型？常见的 props 类型怎么定义？",
+      "answer": "在 React 组件中，可以使用 TypeScript 类型来定义 props。常见的 props 类型包括 `PropsWithChildren`（用于包含 children 的 props）、`CSSProperties`（样式对象类型）、`HTMLAttributes`（HTML 属性类型）等 [chunk_2]。组件的类型定义通常通过接口或类型别名实现，并在函数组件中作为参数传递 [chunk_3]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "551828cc-f559-4cc5-997e-ffb05b44de16",
+          "doc_name": "第04章—React组件如何写TypeScript类型.md",
+          "page": 1,
+          "score": 0.6701021514729004,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "现在写 React 组件都是基于 TypeScript，所以如何给组件写类型也是很重要的。  \n这节我们就来学下 React 组件如何写 TypeScript 类型。  \n用 cra 创建个项目：  \n```\nnpx create-reac"
+        },
+        {
+          "chunk_id": "f42905cb-ce9c-4201-af85-6f6fac932ff7",
+          "doc_name": "第04章—React组件如何写TypeScript类型.md",
+          "page": 1,
+          "score": 0.644769099457709,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "- **PropsWithChildren**：可以用来写有 children 的 props  \n- **CSSProperties**： css 样式对象的类型  \n- **HTMLAttributes**：组件可以传入 html 标签"
+        },
+        {
+          "chunk_id": "6a0fab27-91c3-48be-bbfa-106c9d68d225",
+          "doc_name": "第04章—React组件如何写TypeScript类型.md",
+          "page": 1,
+          "score": 0.6295904695965306,
+          "methods": [
+            "vector"
+          ],
+          "text_preview": "return <div>aaa, {props.name}{props.content}</div>\n}\n```  \n看下它的类型定义：  \n![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fb"
+        }
+      ],
+      "context_precision": 0.5,
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.882294217745463,
+      "error": null
+    },
+    {
+      "id": "Q005",
+      "question": "Suspense 和 ErrorBoundary 的作用分别是什么？",
+      "answer": "Suspense 用于处理异步操作，通过捕获 promise 实现组件的延迟加载或等待 [chunk_1]。ErrorBoundary 则用于捕获子组件的错误，并显示备用界面 [chunk_1]。两者都通过捕获组件抛出的内容实现功能，但 Suspense 捕获 promise，ErrorBoundary 捕获 error [chunk_2]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "60af9f41-e62c-4da9-8944-69f852f4bfeb",
+          "doc_name": "第12章—深入理解Suspense和ErrorBoundary.md",
+          "page": 1,
+          "score": 0.705363776040167,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "大多数人用 Suspense 都是结合 React.lazy 异步加载组件的时候用，其实它也可以独立用。  \n它的底层原理就是 throw 一个 promise，然后 React 会捕获这个 promise，交给最近的 Suspense 组"
+        },
+        {
+          "chunk_id": "0551348d-0a3c-4843-8dfe-e1728c3f1f73",
+          "doc_name": "第12章—深入理解Suspense和ErrorBoundary.md",
+          "page": 1,
+          "score": 0.689210749204873,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "```  \n![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/456882be47db46b8b4108db4433cfaae~tplv-k3u1fbpfcp-jj-mark:0:0"
+        },
+        {
+          "chunk_id": "8530215f-aa51-4413-9c24-f16d612e305a",
+          "doc_name": "第12章—深入理解Suspense和ErrorBoundary.md",
+          "page": 1,
+          "score": 0.6855984612816651,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "而 throw 一个 error 的时候：  \n![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e98a75057944493bfd067353653cd17~tplv-k3u1"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 0.7,
+      "answer_relevancy": 0.8389100432395935,
+      "error": null
+    },
+    {
+      "id": "Q006",
+      "question": "防删除的 Watermark 水印组件怎么实现？",
+      "answer": "防删除的 Watermark 水印组件通过 `MutationObserver` 监听水印节点的变动或删除，一旦发现变化就重新绘制水印 [chunk_1]。具体实现是将水印放在一个覆盖目标元素的 div 上，并使用 canvas 生成水印内容，转换为 base64 设置为背景图 [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "76610d77-b731-4bbd-8129-74c289c56565",
+          "doc_name": "第18章—组件实战：Watermark防删除水印组件.md",
+          "page": 1,
+          "score": 0.7282986918242107,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "这节我们实现了 Watermark 水印组件。  \n水印的实现原理就是加一个和目标元素宽高一样的 div 覆盖在上面，设置 pointer-events:none 不响应鼠标事件。  \n然后背景用水印图片 repeat 实现。  \n这个水印"
+        },
+        {
+          "chunk_id": "c24e929f-db16-448b-8c52-2dbd551cbe9a",
+          "doc_name": "第18章—组件实战：Watermark防删除水印组件.md",
+          "page": 1,
+          "score": 0.6880697312917469,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "是的话，就把 watermarkDiv.current 置空然后重新绘制。  \n测试下：  \n![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9c61ea9bda874c68a65"
+        },
+        {
+          "chunk_id": "b124e57a-c272-4513-af17-89887df7647a",
+          "doc_name": "第18章—组件实战：Watermark防删除水印组件.md",
+          "page": 1,
+          "score": 0.6636372466114253,
+          "methods": [
+            "vector"
+          ],
+          "text_preview": "export default App;\n```  \n![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d0394549023345b5a9491cc251691498~tplv-k3"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8480426470438639,
+      "error": null
+    },
+    {
+      "id": "Q007",
+      "question": "Space 间距组件的核心实现思路是什么？",
+      "answer": "Space 间距组件的核心实现思路是利用 React 的 children API 和 context 来处理子组件，并通过 props 设置布局参数，如方向、间距、对齐方式等，从而实现灵活的布局控制 [chunk_2]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "fc713989-5c81-4243-b2a0-c21bdef3ec10",
+          "doc_name": "第14章—组件实战：Space间距组件.md",
+          "page": 1,
+          "score": 0.5122965849474894,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "</div>\n}\n```  \n可以看到，两个 Space 的间距设置都生效了。  \n![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/726130fdf7364cdcb6da0524"
+        },
+        {
+          "chunk_id": "9cc1a5eb-1363-49e2-8fb1-6bfec00887e4",
+          "doc_name": "第14章—组件实战：Space间距组件.md",
+          "page": 1,
+          "score": 0.4985035449947967,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "我们自己实现了 antd 的 Space 组件。  \n这是一个布局组件，可以通过参数设置水平和竖直间距、对齐方式、换行等。  \n我们用到了 React.children 的 api 来修改 children，然后根据 props 来确定 c"
+        },
+        {
+          "chunk_id": "29c3894c-404c-4b19-8af8-a7d1e588bd16",
+          "doc_name": "第14章—组件实战：Space间距组件.md",
+          "page": 1,
+          "score": 0.4005406362297707,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "我们用 flex、margin、padding 等来布局，写每个组件都要用。  \n但其实很多布局是通用的。  \n我们能不能把布局抽离出来，作为一个组件来复用呢？  \n可以的，这类组件叫做布局组件。  \n**布局就是确定元素的位置**，比如间"
+        }
+      ],
+      "context_precision": 0.5,
+      "faithfulness": 0.75,
+      "answer_relevancy": 0.6887624065081278,
+      "error": null
+    },
+    {
+      "id": "Q008",
+      "question": "浏览器里有哪几种 Observer？分别用来干什么？",
+      "answer": "浏览器中有5种Observer：  \n- IntersectionObserver：监听元素可见性变化 [chunk_1]  \n- MutationObserver：监听元素属性和子节点变化 [chunk_1]  \n- ResizeObserver：监听元素大小变化 [chunk_1]  \n- PerformanceObserver：监听performance记录的行为 [chunk_1]  \n- ReportingObserver：监听过时的API、浏览器干预行为 [chunk_1]",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "449cb2f8-1aa0-450b-b7e3-54385dc2fee4",
+          "doc_name": "第17章—浏览器的5种Observer.md",
+          "page": 1,
+          "score": 0.7079362175684565,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "监听用户的交互行为，我们会用 addEventListener 来监听 click、mousedown、keydown、input 等事件，但对于元素的变化、performance 的记录、浏览器干预行为这些不是用户交互的事件就要用 Xxx"
+        },
+        {
+          "chunk_id": "c6af5857-148e-4217-ad71-4e156c54173a",
+          "doc_name": "第17章—浏览器的5种Observer.md",
+          "page": 1,
+          "score": 0.6978235664399934,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "网页开发中我们经常要处理用户交互，我们会用 addEventListener 添加事件监听器来监听各种用户操作，比如 click、mousedown、mousemove、input 等，这些都是由用户直接触发的事件。  \n那么对于一些不是由"
+        },
+        {
+          "chunk_id": "9aefcd27-f563-44c2-a5c2-0adb4190d7ef",
+          "doc_name": "第17章—浏览器的5种Observer.md",
+          "page": 1,
+          "score": 0.6563983122084656,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "浏览器的这 5 种 Observer，你用过几种呢？在什么情况下用到过呢？不妨来讨论下。"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.877668559551239,
+      "error": null
+    },
+    {
+      "id": "Q009",
+      "question": "React.Children 有什么用？有哪些替代方案？",
+      "answer": "React.Children 用于操作组件的子元素，提供 map、forEach、toArray 等方法 [chunk_3]。其替代方案包括：将对 children 的修改封装成组件，或声明 props 接收数据并结合 render props 定制渲染逻辑 [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "ebde3959-26ed-4275-8d29-815a89220dbc",
+          "doc_name": "第15章—React.Children和它的两种替代方案.md",
+          "page": 1,
+          "score": 0.6848985512727639,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "export default App;\n```\n![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2e8846512011407ab2adf18139b31cbb~tplv-k3u1"
+        },
+        {
+          "chunk_id": "1b2c2ccc-8554-4f37-9eef-d05174aa54c7",
+          "doc_name": "第15章—React.Children和它的两种替代方案.md",
+          "page": 1,
+          "score": 0.6788572321695383,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "当然，Children 的 api 被放到了 legacy 目录，可以用这两种方案来替代：  \n![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/846e9e99373b4589a4"
+        },
+        {
+          "chunk_id": "726ca958-0f62-456b-b14e-627970d50b76",
+          "doc_name": "第15章—React.Children和它的两种替代方案.md",
+          "page": 1,
+          "score": 0.6650310854512241,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "我们学了用 React.Children 来修改 children，它有 map、forEach、toArray、only、count 等方法。  \n不建议直接用数组方法来操作，而是用 React.Children 的 api。  \n原因有"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8384445110956827,
+      "error": null
+    },
+    {
+      "id": "Q010",
+      "question": "react-lazyload 是怎么实现懒加载的？",
+      "answer": "react-lazyload 通过 IntersectionObserver 实现懒加载，设置 rootMargin 作为 offset，threshold 为 0 以在元素进入可视区域时触发加载 [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "92e09356-f4b9-4153-8dc4-048f8ad091b1",
+          "doc_name": "第19章—手写react-lazyload.md",
+          "page": 1,
+          "score": 0.7039265093818847,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "当图片进入可视区域才加载的时候，可以用 react-lazyload。  \n它支持设置 placeholder 占位内容，设置 offset 距离多少距离进入可视区域触发加载。  \n此外，它也可以用来实现组件进入可视区域时再加载，配合 Re"
+        },
+        {
+          "chunk_id": "f1304c77-3d6b-40c3-8cf9-a06111bc3727",
+          "doc_name": "第19章—手写react-lazyload.md",
+          "page": 1,
+          "score": 0.6993459581865813,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "可以看到，现在 img2 还没到可视区域就加载了。  \n知道了 react-lazyload 怎么用，那它是怎么实现的呢？  \n用前两节讲过的 IntersectionObserver 就可以实现。  \n我们来写一下：  \nsrc/MyLa"
+        },
+        {
+          "chunk_id": "e03863cd-ed85-426b-afb7-b717d3f77469",
+          "doc_name": "第19章—手写react-lazyload.md",
+          "page": 1,
+          "score": 0.6874589588186143,
+          "methods": [
+            "vector"
+          ],
+          "text_preview": "我们知道，用 lazy 包裹的组件可以异步加载。  \n我们写一个 Guang.tsx  \n```javascript\nexport default function Guang() {\nreturn '神说要有光';\n}\n```\n然后在 A"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 0.75,
+      "answer_relevancy": 0.8426740169525146,
+      "error": null
+    }
+  ]
+}

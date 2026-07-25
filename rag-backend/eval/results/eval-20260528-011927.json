@@ -1,0 +1,107 @@
+{
+  "summary": {
+    "num_questions": 2,
+    "context_precision": 1.0,
+    "faithfulness": 0.9,
+    "answer_relevancy": 0.9060706049203873,
+    "duration_seconds": 26.55494451522827
+  },
+  "config": {
+    "top_k": 3,
+    "num_relevancy_queries": 2,
+    "embedding_model": "text-embedding-v3",
+    "llm_model": "qwen-turbo",
+    "rerank_model": "gte-rerank",
+    "rrf_k": 60,
+    "relevance_threshold": 0.2
+  },
+  "per_question": [
+    {
+      "id": "Q001",
+      "question": "Storybook 是用来做什么的？",
+      "answer": "Storybook 是用来创建组件文档的工具，可以写多个 story 来展示组件不同场景下的渲染结果，并支持测试 [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "7a3d9e12-da0f-41c9-9d24-dd509b531a99",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6906630435849066,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "写组件文档，我们一般都是用 Storybook。  \n它把不同 props 的渲染结果叫做一个 story，一个组件有多个 story。  \nstory 可以通过 args 指定传入组件的参数，通过 loaders 请求数据，通过 rend"
+        },
+        {
+          "chunk_id": "1c9edb9a-804c-41c0-b9ef-4d5238d29090",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6828352043577077,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "我们每天都在写各种组件，一般的组件不需要文档，但当你写组件库里的组件，或者项目里的一些公共组件的时候，是需要提供文档的。  \n这时候我们一般都会用 Storybook。  \nStorybook 是非常流行的用来构建组件文档的工具。  \n现在"
+        },
+        {
+          "chunk_id": "a6010f60-45e0-49e3-955a-6896d4731e85",
+          "doc_name": "第10章—快速掌握Storybook.md",
+          "page": 1,
+          "score": 0.6059712494437072,
+          "methods": [
+            "vector"
+          ],
+          "text_preview": "这些都是与 Story 无关的一些东西，所以放在 Meta 里。  \n此外，你还可以用 Storybook 写 MDX 文档。  \nmdx 是 markdown + jsx 的混合语法，用来写文档很不错。  \n在这个目录下的文档：  \n!["
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8233093023300171,
+      "error": null
+    },
+    {
+      "id": "Q002",
+      "question": "React function 组件里常用的 Hook 有哪些？",
+      "answer": "React function 组件里常用的 Hook 有 useState、useEffect、useLayoutEffect 和 useReducer [chunk_1]。",
+      "retrieved_chunks": [
+        {
+          "chunk_id": "f6f4807b-6f11-49e8-a313-f2d5b355c9dd",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6907937225910544,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "这节我们过了一遍 React 常用的 hook：  \n- **useState**：状态是变化的数据，是组件甚至前端应用的核心。useState 有传入值和函数两种参数，返回的 setState 也有传入值和传入函数两种参数。  \n- **"
+        },
+        {
+          "chunk_id": "c3e3d72d-33e2-4a88-b9f8-c34f167ef8d1",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6752470277613092,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "React 组件支持 class、function 两种形式，但现在绝大多数情况下我们都是写 function 组件了。  \n[官方文档](https://react.dev/reference/react/Component)也已经把 c"
+        },
+        {
+          "chunk_id": "65df7c3c-3653-463b-9244-0ddf135f31c8",
+          "doc_name": "第02章—一网打尽组件常用Hook.md",
+          "page": 1,
+          "score": 0.6749332827501769,
+          "methods": [
+            "vector",
+            "bm25"
+          ],
+          "text_preview": "当然，react 的 hook 还有一些，那些不大常用的，等用到的时候再说。  \nclass 组件被标记为 lagency 了，现在写 React 组件主要是 function 组件。  \n函数组件主要是学习 hook，所以把这节的内容掌握"
+        }
+      ],
+      "context_precision": 1.0,
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.9888319075107574,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+# 🚀 Document Retrieval RAG System
+
+一个完整的企业级本地知识库问答系统（RAG），支持文档上传、解析、向量化存储以及基于大模型的智能检索问答。
+
+## 🌟 系统架构
+
+本系统由前后端分离架构组成：
+
+- **Frontend**: `rag-frontend` (Vue 3 + Tailwind CSS) - 提供现代化的用户交互界面
+- **Backend**: `rag-backend` (FastAPI + LangChain) - 处理文档解析、向量检索与 LLM 交互
+
+## ✨ 主要功能
+
+- **📚 知识库管理**
+  - 支持 PDF, Word, Markdown, TXT 格式文档上传
+  - 文档切片与向量化索引（使用 Faiss）
+  - 文档列表查询与管理
+
+- **💬 智能问答**
+  - 基于通义千问（Qwen）大模型
+  - 检索增强生成（RAG）：先检索相关文档片段，再生成回答
+  - 支持流式响应（Streaming Response）
+  - 展示思考过程与引用来源
+
+## ⚡ 快速启动指南
+
+### 前置要求
+
+- Node.js 16+
+- Python 3.10+
+- 阿里云 DashScope API Key
+
+### 1. 启动后端服务
+
+进入 `rag-backend` 目录：
+
+```bash
+cd rag-backend
+# 配置 .env 文件，填入 DASHSCOPE_API_KEY
+uv sync
+uv run start.py
+```
+
+### 2. 启动前端应用
+
+进入 `rag-frontend` 目录：
+
+```bash
+cd rag-frontend
+npm install
+npm run dev
+```
+
+### 3. 访问系统
+
+打开浏览器访问：[http://localhost:5173](http://localhost:5173)
+
+## 📸 界面预览
+
+| 文档管理 | 智能问答 |
+|----------|----------|
+| ![Doc Manage](./images/1.jpg) | ![Chat Interface](./images/2.jpg) |
+
+## 📝 License
+
+MIT License
