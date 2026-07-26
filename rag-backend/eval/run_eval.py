@@ -52,7 +52,11 @@ log = logging.getLogger("rag-eval")
 # LLM call wrappers                                                            #
 # --------------------------------------------------------------------------- #
 
-def _llm(prompt: str, *, temperature: float = 0.1, max_tokens: int = 512) -> str:
+_JUDGE_MODEL = "qwen-turbo"  # run() 里按参数覆盖
+
+
+def _llm(prompt: str, *, temperature: float = 0.1, max_tokens: int = 512,
+         model: Optional[str] = None) -> str:
     s = get_settings()
     resp = requests.post(
         "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
@@ -61,7 +65,7 @@ def _llm(prompt: str, *, temperature: float = 0.1, max_tokens: int = 512) -> str
             "Content-Type": "application/json",
         },
         json={
-            "model": s.LLM_MODEL,
+            "model": model or _JUDGE_MODEL,
             "messages": [{"role": "user", "content": prompt}],
             "temperature": temperature,
             "max_tokens": max_tokens,
@@ -116,7 +120,8 @@ def generate_answer(question: str, chunks: list[RetrievalHit]) -> str:
     for i, c in enumerate(chunks, start=1):
         context_parts.append(f"[chunk_{i}] (来源: {c.doc_name}, 第{c.page}页)\n{c.text}")
     context = "\n\n".join(context_parts)
-    return _llm(ANSWER_PROMPT.format(context=context, question=question), temperature=0.2)
+    return _llm(ANSWER_PROMPT.format(context=context, question=question),
+                temperature=0.2, model=get_settings().LLM_MODEL)
 
 
 # --------------------------------------------------------------------------- #
@@ -252,6 +257,7 @@ class PerQuestionResult:
     faithfulness: float = 0.0
     answer_relevancy: float = 0.0
     error: Optional[str] = None
+    category: str = ""
 
 
 @dataclass
@@ -267,7 +273,31 @@ class Summary:
 # Main                                                                         #
 # --------------------------------------------------------------------------- #
 
-def run(questions_path: Path, top_k: int, n_relevancy: int, limit: Optional[int]) -> tuple[Summary, list[PerQuestionResult]]:
+def apply_toggles(no_hybrid: bool, no_rerank: bool) -> None:
+    """Runtime override; retriever reads these flags on every search()."""
+    s = get_settings()
+    s.ENABLE_HYBRID = not no_hybrid
+    s.ENABLE_RERANK = not no_rerank
+
+
+def build_config_snapshot(judge_model: str) -> dict:
+    s = get_settings()
+    return {
+        "embedding_model": s.EMBEDDING_MODEL,
+        "llm_model": s.LLM_MODEL,
+        "rerank_model": s.RERANK_MODEL,
+        "judge_model": judge_model,
+        "enable_hybrid": s.ENABLE_HYBRID,
+        "enable_rerank": s.ENABLE_RERANK,
+        "rrf_k": s.RRF_K,
+        "relevance_threshold": s.RELEVANCE_THRESHOLD,
+    }
+
+
+def run(questions_path: Path, top_k: int, n_relevancy: int, limit: Optional[int],
+        judge_model: str = "qwen-turbo") -> tuple[Summary, list[PerQuestionResult]]:
+    global _JUDGE_MODEL
+    _JUDGE_MODEL = judge_model
     with open(questions_path, "r", encoding="utf-8") as f:
         questions = json.load(f)
     if limit:
@@ -304,11 +334,13 @@ def run(questions_path: Path, top_k: int, n_relevancy: int, limit: Optional[int]
                 context_precision=cp,
                 faithfulness=fa,
                 answer_relevancy=ar,
+                category=q.get("category", ""),
             ))
         except Exception as e:
             log.error("    failed: %s", e)
             results.append(PerQuestionResult(
                 id=qid, question=question, answer="", error=str(e),
+                category=q.get("category", ""),
             ))
 
     valid = [r for r in results if r.error is None]
@@ -330,6 +362,9 @@ def main() -> int:
     ap.add_argument("--num-relevancy-queries", type=int, default=3)
     ap.add_argument("--output", type=Path, default=Path("eval/results/"))
     ap.add_argument("--limit", type=int, default=None, help="Only evaluate first N questions")
+    ap.add_argument("--no-hybrid", action="store_true", help="纯向量召回（关 BM25+RRF）")
+    ap.add_argument("--no-rerank", action="store_true", help="关精排（阈值随之失效）")
+    ap.add_argument("--judge-model", type=str, default="qwen-turbo")
     args = ap.parse_args()
 
     if not args.questions.exists():
@@ -341,22 +376,16 @@ def main() -> int:
         log.error("DASHSCOPE_API_KEY not set. Configure .env first.")
         return 2
 
-    summary, results = run(args.questions, args.top_k, args.num_relevancy_queries, args.limit)
+    apply_toggles(args.no_hybrid, args.no_rerank)
+    summary, results = run(args.questions, args.top_k, args.num_relevancy_queries, args.limit,
+                           judge_model=args.judge_model)
 
     args.output.mkdir(parents=True, exist_ok=True)
     out_path = args.output / f"eval-{datetime.now().strftime('%Y%m%d-%H%M%S')}.json"
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump({
             "summary": asdict(summary),
-            "config": {
-                "top_k": args.top_k,
-                "num_relevancy_queries": args.num_relevancy_queries,
-                "embedding_model": settings.EMBEDDING_MODEL,
-                "llm_model": settings.LLM_MODEL,
-                "rerank_model": settings.RERANK_MODEL,
-                "rrf_k": settings.RRF_K,
-                "relevance_threshold": settings.RELEVANCE_THRESHOLD,
-            },
+            "config": build_config_snapshot(args.judge_model),
             "per_question": [asdict(r) for r in results],
         }, f, ensure_ascii=False, indent=2)
 
