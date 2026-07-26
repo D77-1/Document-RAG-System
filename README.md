@@ -45,13 +45,11 @@ NDJSON 全链路流式：检索 → 精排 → 生成逐步推送，前端把每
        ─► 阈值过滤 (≥0.2) ─► Top-3 上下文 ─► qwen 流式生成 ─► NDJSON ─► 前端逐 token 渲染
 ```
 
-<!-- TODO(截图): 系统跑起来后截两张图放到 docs/screenshots/ 目录，然后取消下面的注释
 ## 界面预览
 
-| 智能问答（检索过程与来源可视化） | 文档管理（在线预览） |
+| 智能问答（流式回答 + 片段引用） | 文档库管理 |
 |---|---|
 | ![Chat](docs/screenshots/chat.png) | ![Docs](docs/screenshots/docs.png) |
--->
 
 ## 快速开始
 
