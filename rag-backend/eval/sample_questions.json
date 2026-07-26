@@ -2,51 +2,211 @@
   {
     "id": "Q001",
     "question": "Storybook 是用来做什么的？",
-    "ground_truth_keywords": ["组件文档", "组件库", "调试", "可视化"]
+    "ground_truth_keywords": ["组件文档", "组件库", "调试", "可视化"],
+    "category": "proper_noun"
   },
   {
     "id": "Q002",
     "question": "React function 组件里常用的 Hook 有哪些？",
-    "ground_truth_keywords": ["useState", "useEffect", "useRef", "useMemo", "useCallback"]
+    "ground_truth_keywords": ["useState", "useEffect", "useRef", "useMemo", "useCallback"],
+    "category": "factual"
   },
   {
     "id": "Q003",
     "question": "React Hook 闭包陷阱是怎么产生的？怎么解决？",
-    "ground_truth_keywords": ["闭包", "依赖", "useEffect", "useRef", "陈旧"]
+    "ground_truth_keywords": ["闭包", "依赖", "useEffect", "useRef", "陈旧"],
+    "category": "factual"
   },
   {
     "id": "Q004",
     "question": "React 组件怎么写 TypeScript 类型？常见的 props 类型怎么定义？",
-    "ground_truth_keywords": ["TypeScript", "props", "interface", "type", "ReactNode"]
+    "ground_truth_keywords": ["TypeScript", "props", "interface", "type", "ReactNode"],
+    "category": "factual"
   },
   {
     "id": "Q005",
     "question": "Suspense 和 ErrorBoundary 的作用分别是什么？",
-    "ground_truth_keywords": ["Suspense", "ErrorBoundary", "异步", "错误", "loading"]
+    "ground_truth_keywords": ["Suspense", "ErrorBoundary", "异步", "错误", "loading"],
+    "category": "proper_noun"
   },
   {
     "id": "Q006",
     "question": "防删除的 Watermark 水印组件怎么实现？",
-    "ground_truth_keywords": ["Watermark", "MutationObserver", "水印", "防删除", "DOM"]
+    "ground_truth_keywords": ["Watermark", "MutationObserver", "水印", "防删除", "DOM"],
+    "category": "proper_noun"
   },
   {
     "id": "Q007",
     "question": "Space 间距组件的核心实现思路是什么？",
-    "ground_truth_keywords": ["Space", "间距", "children", "flex", "gap"]
+    "ground_truth_keywords": ["Space", "间距", "children", "flex", "gap"],
+    "category": "proper_noun"
   },
   {
     "id": "Q008",
     "question": "浏览器里有哪几种 Observer？分别用来干什么？",
-    "ground_truth_keywords": ["MutationObserver", "IntersectionObserver", "ResizeObserver", "PerformanceObserver"]
+    "ground_truth_keywords": ["MutationObserver", "IntersectionObserver", "ResizeObserver", "PerformanceObserver"],
+    "category": "factual"
   },
   {
     "id": "Q009",
     "question": "React.Children 有什么用？有哪些替代方案？",
-    "ground_truth_keywords": ["React.Children", "map", "forEach", "替代", "迭代"]
+    "ground_truth_keywords": ["React.Children", "map", "forEach", "替代", "迭代"],
+    "category": "proper_noun"
   },
   {
     "id": "Q010",
     "question": "react-lazyload 是怎么实现懒加载的？",
-    "ground_truth_keywords": ["IntersectionObserver", "懒加载", "lazyload", "可视区域"]
+    "ground_truth_keywords": ["IntersectionObserver", "懒加载", "lazyload", "可视区域"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q011",
+    "question": "useImperativeHandle 是干什么的？",
+    "ground_truth_keywords": ["useImperativeHandle", "ref", "forwardRef", "自定义"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q012",
+    "question": "createPortal 有什么用？",
+    "ground_truth_keywords": ["createPortal", "渲染", "dom", "attach"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q013",
+    "question": "react-copy-to-clipboard 是个什么组件？",
+    "ground_truth_keywords": ["copy-to-clipboard", "复制", "onCopy", "cloneElement"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q014",
+    "question": "createFromIconfontCN 怎么用？",
+    "ground_truth_keywords": ["createFromIconfontCN", "scriptUrl", "IconFont", "图标"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q015",
+    "question": "ResizeObserver 是干什么的？",
+    "ground_truth_keywords": ["ResizeObserver", "大小", "width", "height", "回调"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q016",
+    "question": "useReducer 适合什么场景？",
+    "ground_truth_keywords": ["useReducer", "reducer", "action", "state"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q017",
+    "question": "SKILL.md 的 frontmatter 里有哪些字段？",
+    "ground_truth_keywords": ["frontmatter", "name", "description", "YAML"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q018",
+    "question": "Storybook 里的 Story 是指什么？",
+    "ground_truth_keywords": ["Story", "args", "props", "渲染"],
+    "category": "proper_noun"
+  },
+  {
+    "id": "Q019",
+    "question": "为什么定时器回调里每次拿到的计数值都是旧的、不会增加？",
+    "ground_truth_keywords": ["闭包", "count", "useEffect", "setState", "函数"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q020",
+    "question": "页面上的版权标记被人用开发者工具删掉后，怎么让它自动恢复？",
+    "ground_truth_keywords": ["MutationObserver", "水印", "监听", "重新"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q021",
+    "question": "页面图片很多，想等用户滚动到附近才去请求图片，有什么方案？",
+    "ground_truth_keywords": ["IntersectionObserver", "可视区域", "懒加载", "placeholder"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q022",
+    "question": "父组件想直接调用子组件内部封装的方法，该怎么做？",
+    "ground_truth_keywords": ["forwardRef", "useImperativeHandle", "ref", "暴露"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q023",
+    "question": "用 JS 怎么快速算出某个月一共有几天？",
+    "ground_truth_keywords": ["Date", "0", "上个月", "最后一天"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q024",
+    "question": "异步模块还没下载完时想先显示个占位提示，React 里怎么做？",
+    "ground_truth_keywords": ["Suspense", "fallback", "lazy", "loading"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q025",
+    "question": "想在浏览器把改动画到屏幕上之前就同步跑完副作用逻辑，该用哪个 Hook？",
+    "ground_truth_keywords": ["useLayoutEffect", "渲染", "阻塞", "useEffect"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q026",
+    "question": "AI 大量参与写代码之后，程序员真正要负责的事情变成了什么？",
+    "ground_truth_keywords": ["负责", "判断", "审阅", "边界"],
+    "category": "paraphrase"
+  },
+  {
+    "id": "Q027",
+    "question": "Watermark 组件的水印图案是怎么生成并铺满页面的？",
+    "ground_truth_keywords": ["canvas", "base64", "data url", "背景", "repeat"],
+    "category": "factual"
+  },
+  {
+    "id": "Q028",
+    "question": "React 组件单测里怎么模拟按钮点击并断言结果？",
+    "ground_truth_keywords": ["fireEvent", "render", "testing-library", "click"],
+    "category": "factual"
+  },
+  {
+    "id": "Q029",
+    "question": "JS 的 Date 里 month 参数是从几开始计数的？",
+    "ground_truth_keywords": ["month", "0", "11", "Date"],
+    "category": "factual"
+  },
+  {
+    "id": "Q030",
+    "question": "不用 React.Children，直接用数组方法处理 children 有什么前提？",
+    "ground_truth_keywords": ["children", "数组", "ReactNode", "map"],
+    "category": "factual"
+  },
+  {
+    "id": "Q031",
+    "question": "Space 组件的 size 参数可以设置哪些值？",
+    "ground_truth_keywords": ["size", "large", "middle", "small", "数值"],
+    "category": "factual"
+  },
+  {
+    "id": "Q032",
+    "question": "为什么 Icon 组件能直接通过 font-size 和 color 改大小和颜色？",
+    "ground_truth_keywords": ["1em", "currentColor", "size", "fill"],
+    "category": "factual"
+  },
+  {
+    "id": "Q033",
+    "question": "PerformanceObserver 可以监听哪几类性能记录？",
+    "ground_truth_keywords": ["mark", "measure", "resource", "PerformanceObserver"],
+    "category": "factual"
+  },
+  {
+    "id": "Q034",
+    "question": "OpenAI 百万行代码实验有哪些核心原则？",
+    "ground_truth_keywords": ["零行手写代码", "Codex", "AGENTS.md", "Linters", "仓库"],
+    "category": "factual"
+  },
+  {
+    "id": "Q035",
+    "question": "写 skill 时 description 字段为什么特别重要？",
+    "ground_truth_keywords": ["description", "触发", "frontmatter", "扫描"],
+    "category": "factual"
   }
 ]

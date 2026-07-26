@@ -19,15 +19,18 @@
 中文场景里的专有名词、缩写、短查询，纯向量召回容易漏。这里 FAISS 稠密与 BM25（jieba 分词）稀疏双路并行召回，用 RRF（k=60）做排名融合——只用 rank 不用分数，天然免疫两路分数尺度不可比的问题——再经 cross-encoder 精排，低于 0.2 相关性阈值的片段直接丢弃：**宁可拒答，不喂低相关上下文给模型编故事。**
 
 **2. 效果有数字，不靠"感觉变好了"。**
-自建 RAGAS 风格 LLM-as-Judge 离线评估（[rag-backend/eval/](rag-backend/eval/)），三个指标可复现、可回归：
+自建 RAGAS 风格 LLM-as-Judge 离线评估（[rag-backend/eval/](rag-backend/eval/)），并做了 2×2 检索消融实验（混检 / 精排开关全组合）：
 
-| 指标 | 分数 | 含义 |
-|---|---|---|
-| Context Precision | **0.858** | 检索出的 Top-3 片段中相关片段占比（按排名加权） |
-| Faithfulness | **0.867** | 答案中的事实陈述能从检索内容推出的比例（防幻觉） |
-| Answer Relevancy | **0.847** | 答案与原问题的语义对齐度 |
+| 配置 | Context Precision | Faithfulness | Answer Relevancy |
+|---|---|---|---|
+| 混检 + 精排（基线） | 0.943 | 0.906 | 0.793 |
+| 混检，无精排 | 0.850 (-0.093) | 0.797 (-0.109) | 0.748 (-0.045) |
+| 纯向量 + 精排 | 0.948 (+0.005) | 0.927 (+0.021) | 0.840 (+0.047) |
+| 纯向量，无精排 | 0.852 (-0.090) | 0.846 (-0.060) | 0.787 (-0.006) |
 
-> 2026-05 基线：18 文档 / 751 chunks / 10 题；评测时模型为 qwen-turbo + gte-rerank（完整配置随结果落盘于 [eval/results/](rag-backend/eval/results/)）。评测集扩充与检索消融实验见 [Roadmap](#roadmap)。
+结论如实写：**精排（+阈值）是质量的最大单一贡献者**——关掉后 Context Precision 0.943→0.850、Faithfulness 0.906→0.797。而在本语料规模（18 文档 / 751 chunks）与 text-embedding-v3 下，混合检索的净收益有限：精排开启时纯向量与混检基本打平（CP 0.948 vs 0.943，差异在小样本噪声量级）。机制上也能解释——full 配置 105 个最终 chunk 里 78 个双路命中、22 个纯向量独供、仅 5 个（4.8%）由 BM25 独供，小语料上稠密召回 Top-20 已近全覆盖。混检的专有名词优势只在无精排管线中显现：no-rerank 时 proper_noun 类 CP 混检 0.940 vs 纯向量 0.905（+0.035）。
+
+> 2026-07 消融实验：35 题 · 裁判模型 qwen-turbo · 生成模型 qwen3.7-plus · 口径：无精排=同时关闭相关性阈值。完整数据见 [rag-backend/eval/results/ablation-20260726-215512/summary.md](rag-backend/eval/results/ablation-20260726-215512/summary.md)。
 
 **3. 过程全透明。**
 NDJSON 全链路流式：检索 → 精排 → 生成逐步推送，前端把每一步画出来；每条回答附来源片段、页码与命中路径（vector / bm25 / 双路命中）。
@@ -84,7 +87,7 @@ npm run dev                  # http://localhost:5173
 
 ## Roadmap
 
-- [ ] 检索消融实验：混检 / 精排 2×2 对照，评测集 10 → 35+
+- [x] 检索消融实验：混检 / 精排 2×2 对照，评测集 10 → 35（见上方结果）
 - [ ] 多轮对话与查询改写（指代消解）
 - [ ] Docker Compose 一键部署 + 线上 Demo
 - [ ] 文档量上万后：FAISS `IndexFlatL2` → `IndexHNSWFlat`，metadata filter 下推到检索层
