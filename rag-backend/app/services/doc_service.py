@@ -73,6 +73,10 @@ def save_corpus(corpus: dict):
 DOCS_METADATA = load_metadata()
 CHUNKS_CORPUS = load_corpus()
 
+# Mirror of the upload endpoint's allow-list: sync_docs_from_disk must never
+# register non-document files (backups, temp files) dropped into UPLOAD_DIR.
+ALLOWED_DOC_EXTS = {".pdf", ".docx", ".doc", ".md", ".markdown", ".txt"}
+
 
 def _get_embeddings() -> Optional[DashScopeEmbeddings]:
     if not settings.DASHSCOPE_API_KEY:
@@ -410,7 +414,11 @@ class DocService:
     def sync_docs_from_disk():
         if not os.path.exists(settings.UPLOAD_DIR):
             return
-        existing_files = {doc["path"] for doc in DOCS_METADATA}
+        # Compare by basename, not full path string: historical metadata mixes
+        # absolute and relative spellings of the same physical file, and the
+        # "{uuid}_{originalname}" basename is already unique per file.
+        existing_names = {os.path.basename(doc["path"]) for doc in DOCS_METADATA}
+        known_ids = {doc["id"] for doc in DOCS_METADATA}
         updated = False
         for filename in os.listdir(settings.UPLOAD_DIR):
             if filename == "metadata.json":
@@ -418,7 +426,9 @@ class DocService:
             file_path = os.path.join(settings.UPLOAD_DIR, filename)
             if not os.path.isfile(file_path):
                 continue
-            if file_path in existing_files:
+            if os.path.splitext(filename)[1].lower() not in ALLOWED_DOC_EXTS:
+                continue
+            if filename in existing_names:
                 continue
 
             # Filename convention is "{uuid}_{originalname}". Validate the UUID
@@ -434,6 +444,10 @@ class DocService:
                     original_name = parts[1]
                 except ValueError:
                     pass
+            # A recognized doc_id that is already registered means this is the
+            # same document under a different path spelling — never re-register.
+            if doc_id is not None and doc_id in known_ids:
+                continue
             if doc_id is None:
                 doc_id = str(uuid.uuid4())
 
