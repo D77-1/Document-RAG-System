@@ -104,6 +104,42 @@ uv run python eval/run_eval.py \
 
 ---
 
+## 裁判模型与被测模型分离
+
+评估用的裁判模型（judge）固定为 **qwen-turbo**，与生成模型（当前 qwen3.7-plus）独立配置、互不跟随。两个理由：
+
+1. **评委不随被评者换人**：如果换生成模型时裁判也跟着换，分数变化就分不清是"生成变好了"还是"裁判口味变了"。裁判固定，指标变化才可归因于被测系统本身。
+2. **与 2026-05 基线可比**：5 月基线就是 qwen-turbo 打的分，后续所有跑分（含 2×2 消融）沿用同一裁判，纵向对比才成立。
+
+如需更换裁判（如升级到 qwen-max），用 `--judge-model` 显式指定，并注意与旧结果不再直接可比。
+
+## run_ablation.py 用法（2×2 检索消融）
+
+对混合检索 / 精排两个开关做全组合对照，一次跑 4 个格子并自动生成对比表：
+
+```bash
+# 在 rag-backend/ 目录下
+python eval/run_ablation.py \
+  --questions eval/sample_questions.json \
+  --judge-model qwen-turbo
+
+# 冒烟测试：只跑前 3 题，验证管线通畅再跑全量
+python eval/run_ablation.py --limit 3
+```
+
+四个格子的含义：
+
+| 格子 | no_hybrid | no_rerank | 说明 |
+|---|---|---|---|
+| `full` | ✗ | ✗ | 混检 + 精排（基线，Δ 以它为基准） |
+| `no_rerank` | ✗ | ✓ | 混检，无精排（**同时关闭相关性阈值**，因阈值作用于精排分） |
+| `vector_only` | ✓ | ✗ | 纯向量 + 精排 |
+| `vector_only_no_rerank` | ✓ | ✓ | 纯向量，无精排 |
+
+结果落盘 `eval/results/ablation-{timestamp}/`：每格一个 JSON + 汇总 `summary.md`（主表含 Δ、分题型 Context Precision 表）。其余参数（`--top-k`、`--num-relevancy-queries`）与 `run_eval.py` 一致。
+
+---
+
 ## 注意事项
 
 - LLM-as-Judge **本身有方差**：同一条 case 跑 3 次评分可能差 0.1。建议同 batch 多次跑取均值。
