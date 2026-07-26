@@ -47,9 +47,13 @@ NDJSON 全链路流式：检索 → 精排 → 生成逐步推送，前端把每
 
 ## 界面预览
 
-| 智能问答（流式回答 + 片段引用） | 文档库管理 |
-|---|---|
-| ![Chat](docs/screenshots/chat.png) | ![Docs](docs/screenshots/docs.png) |
+**智能问答 —— 流式回答 + 片段引用**
+
+![智能问答界面](docs/screenshots/chat.png)
+
+**文档库管理**
+
+![文档库管理界面](docs/screenshots/docs.png)
 
 ## 快速开始
 
