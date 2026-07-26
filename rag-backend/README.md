@@ -1,7 +1,7 @@
 # RAG Backend — 本地知识库混合检索问答系统
 
 > 基于 FastAPI + LangChain + FAISS + DashScope 的本地知识库问答后端。
-> 采用 **稠密向量 + BM25 稀疏检索 + RRF 融合 + Cross-Encoder 精排** 的两阶段检索架构，配合 Cross-Encoder 精排保证上下文质量；消融实验表明精排阶段是回答质量的最大单一贡献者（详见 [eval/](eval/)）。
+> 采用 **稠密向量 + BM25 稀疏检索 + RRF 融合 + Cross-Encoder 精排** 的两阶段检索架构；消融实验表明精排阶段是回答质量的最大单一贡献者（详见 [eval/](eval/)）。
 
 ---
 
