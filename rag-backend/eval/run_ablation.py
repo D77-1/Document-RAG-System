@@ -16,11 +16,7 @@ from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from run_eval import apply_toggles, build_config_snapshot, run  # noqa: E402
+from run_eval import apply_toggles, build_config_snapshot, run  
 
 # (cell_name, no_hybrid, no_rerank) — full 在前，作为 Δ 的基准
 CELLS = [

@@ -1,8 +1,6 @@
 export interface ChatRequest {
   question: string;
-  doc_id?: string;
   top_k?: number;
-  threshold?: number;
 }
 
 export interface ChatSource {
@@ -10,7 +8,6 @@ export interface ChatSource {
   score: number;
   source: string;
   page: number;
-  doc_id?: string;
   methods?: string[];          // ["vector"], ["bm25"], or ["vector", "bm25"]
   vector_rank?: number | null;
   bm25_rank?: number | null;
