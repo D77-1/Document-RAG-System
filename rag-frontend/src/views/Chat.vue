@@ -11,13 +11,25 @@
         </h1>
         <p class="mt-2 text-zinc-400 text-lg">基于已上传文档的 RAG 问答系统</p>
       </div>
-      <div v-if="systemStatus.is_model_ready" class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        AI 模型准备就绪
-      </div>
-      <div v-else class="px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs text-red-400 flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
-        未配置 AI 模型
+      <div class="flex items-center gap-3">
+        <div v-if="systemStatus.is_model_ready" class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          AI 模型准备就绪
+        </div>
+        <div v-else class="px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs text-red-400 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+          未配置 AI 模型
+        </div>
+        <button
+          @click="chatStore.clearMessages"
+          :disabled="loading || messages.length === 0"
+          class="px-3 py-1.5 text-xs rounded-lg border border-white/10 text-zinc-300 hover:text-white hover:border-violet-500/50 hover:bg-violet-500/10 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          新对话
+        </button>
       </div>
     </div>
 
