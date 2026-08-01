@@ -119,12 +119,12 @@ uv run python eval/run_eval.py \
 
 ```bash
 # 在 rag-backend/ 目录下
-python eval/run_ablation.py \
+uv run python eval/run_ablation.py \
   --questions eval/sample_questions.json \
   --judge-model qwen-turbo
 
 # 冒烟测试：只跑前 3 题，验证管线通畅再跑全量
-python eval/run_ablation.py --limit 3
+uv run python eval/run_ablation.py --limit 3
 ```
 
 四个格子的含义：
