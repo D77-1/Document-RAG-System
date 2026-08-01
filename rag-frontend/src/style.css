@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: "Inter", "SF Pro SC", "SF Pro Text", "Helvetica Neue", "Helvetica", "PingFang SC", "Segoe UI", "Microsoft YaHei", "Arial", sans-serif;
