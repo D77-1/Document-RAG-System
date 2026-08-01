@@ -136,7 +136,7 @@
 
                 <!-- Final Answer -->
                 <div v-if="msg.content" class="bg-zinc-800/50 border border-white/5 text-zinc-100 px-6 py-5 rounded-2xl rounded-tl-sm prose prose-invert max-w-none shadow-sm backdrop-blur-sm">
-                  <div class="whitespace-pre-wrap leading-relaxed">{{ msg.content }}</div>
+                  <div class="leading-relaxed" v-html="renderMarkdown(msg.content)"></div>
                 </div>
                 <div v-else-if="msg.loading && !msg.process?.some(p => p.status === 'error')" class="text-zinc-500 text-sm animate-pulse flex items-center gap-2 px-2">
                   <span class="w-2 h-2 bg-zinc-500 rounded-full"></span>
@@ -188,6 +188,11 @@ import { ref, nextTick, watch, onMounted } from 'vue'
 import { useChatStore } from '@/stores/chat'
 import { storeToRefs } from 'pinia'
 import axios from 'axios'
+import MarkdownIt from 'markdown-it'
+
+// html:false —— 模型输出中的原生 HTML 一律转义为文本，防注入
+const md = new MarkdownIt({ html: false, linkify: true, breaks: true })
+const renderMarkdown = (content: string) => md.render(content)
 
 const chatStore = useChatStore()
 const { messages, loading } = storeToRefs(chatStore)
